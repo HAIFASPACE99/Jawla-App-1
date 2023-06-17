@@ -1,5 +1,6 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
+import 'package:jawla_app/models/activity_model.dart';
 import '../constants/app_styles.dart';
 import '../constants/constants.dart';
 import 'favorite_button.dart';
@@ -7,21 +8,15 @@ import 'favorite_button.dart';
 class TrendingActivityCard extends StatelessWidget {
   const TrendingActivityCard({
     super.key,
-    required this.activityThumbnail,
-    required this.price,
-    required this.activityName,
-    required this.city,
+    required this.activity,
   });
 
-  final String activityThumbnail;
-  final String activityName;
-  final String city;
-  final String price;
+  final Activity activity;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 197,
+      height: 220,
       width: 164,
       margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       padding: const EdgeInsets.all(10),
@@ -47,7 +42,8 @@ class TrendingActivityCard extends StatelessWidget {
                 width: 144,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(9),
-                  child: Image.asset(activityThumbnail, fit: BoxFit.cover),
+                  child: Image.asset("assets/images/thumbnails/diving.png",
+                      fit: BoxFit.cover),
                 ),
               ),
 
@@ -64,7 +60,9 @@ class TrendingActivityCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 1),
                   child: Center(
                     child: Text(
-                      price != "FREE" ? '$price SR' : price,
+                      activity.activityPrice != "FREE"
+                          ? '${activity.activityPrice} SR'
+                          : "FREE",
                       style: const TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w600,
@@ -79,25 +77,31 @@ class TrendingActivityCard extends StatelessWidget {
           height8,
 
           // Activity Details
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              SizedBox(
+                  width: 140,
+                  child:
+                      Text(activity.activityName ?? "", style: headLineStyle3)),
+              height4,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(activityName, style: headLineStyle4),
-                  height4,
                   Row(
                     children: [
                       const Icon(Icons.location_on_sharp,
                           color: primaryColor, size: 11),
                       width4,
-                      Text(city, style: headLineStyle6),
+                      Text(activity.activityCity ?? "", style: headLineStyle5),
                     ],
+                  ),
+                  FavoriteButton(
+                    iconSize: 18,
+                    activity: activity,
                   ),
                 ],
               ),
-              const FavoriteButton(),
             ],
           )
         ],

@@ -17,3 +17,9 @@ const width24 = SizedBox(width: 24);
 const width32 = SizedBox(width: 32);
 const width48 = SizedBox(height: 48);
 const width56 = SizedBox(height: 56);
+
+class AppLayout {
+  static getSize(BuildContext context) {
+    return MediaQuery.of(context).size;
+  }
+}

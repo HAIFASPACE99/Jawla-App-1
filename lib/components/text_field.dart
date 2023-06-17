@@ -5,14 +5,14 @@ class CustomTextField extends StatefulWidget {
   const CustomTextField(
       {super.key,
       required this.hint,
-      required this.iconName,
+      this.iconName,
       this.isPassword = false,
       required this.controller,
       this.minLines = 1,
       this.maxLines = 1});
 
   final String hint;
-  final IconData iconName;
+  final IconData? iconName;
   final bool? isPassword;
   final TextEditingController controller;
   final int? minLines;
@@ -41,7 +41,7 @@ class CustomTextFieldState extends State<CustomTextField> {
           });
         },
         icon: Icon(isEncrypted! ? Icons.visibility : Icons.visibility_off,
-            color: myTertiaryColor));
+            color: tertiaryColor));
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -55,10 +55,13 @@ class CustomTextFieldState extends State<CustomTextField> {
               filled: true,
               fillColor: Colors.white,
               enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: myTertiaryColor),
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
+                borderSide: BorderSide(color: tertiaryColor),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+              ),
               focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: myTertiaryColor),
+                borderSide: BorderSide(color: tertiaryColor),
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),
                 ),
@@ -66,8 +69,8 @@ class CustomTextFieldState extends State<CustomTextField> {
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               hintText: widget.hint,
-              hintStyle: const TextStyle(color: myTertiaryColor),
-              prefixIcon: Icon(widget.iconName, color: myTertiaryColor),
+              hintStyle: const TextStyle(color: tertiaryColor),
+              prefixIcon: Icon(widget.iconName, color: tertiaryColor),
               suffixIcon: widget.isPassword ?? false ? showHidePassword : null),
           obscureText: widget.isPassword ?? false ? isEncrypted! : false),
     );
@@ -93,11 +96,11 @@ class CustomTextFieldState extends State<CustomTextField> {
         ),
         contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         hintText: hint,
-        hintStyle: const TextStyle(color: myTertiaryColor),
-        prefixIcon: Icon(prefixIcon, color: myTertiaryColor),
+        hintStyle: const TextStyle(color: tertiaryColor),
+        prefixIcon: Icon(prefixIcon, color: tertiaryColor),
         suffixIcon: Icon(
           suffixIcon,
-          color: myTertiaryColor,
+          color: tertiaryColor,
           size: 22,
         ),
       ),

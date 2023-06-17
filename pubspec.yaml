@@ -26,5 +26,5 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/login_signup/
     - assets/images/thumbnails/
-    - assets/icons/

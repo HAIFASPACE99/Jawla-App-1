@@ -5,10 +5,9 @@ extension extString on String {
     return emailRegExp.hasMatch(this);
   }
 
-  bool get isValidName {
-    final nameRegExp =
-        RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
-    return nameRegExp.hasMatch(this);
+  bool get isValidPhone {
+    final phoneRegExp = RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
+    return phoneRegExp.hasMatch(this);
   }
 
   bool get isValidPassword {

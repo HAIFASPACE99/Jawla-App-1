@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants/app_styles.dart';
+import 'favorite_screen.dart';
 import 'home_screen.dart';
 
 class MyNavigationBar extends StatefulWidget {
@@ -15,7 +16,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   static final List<Widget> _widgetOptions = <Widget>[
     const HomeScreen(),
     const Text("Plan"),
-    const Text("Favorite"),
+    const FavoriteScreen(),
     const Text("Profile"),
   ];
 
@@ -32,6 +33,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
         child: _widgetOptions[_selectedIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         elevation: 10,

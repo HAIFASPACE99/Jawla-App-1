@@ -8,6 +8,7 @@ import 'package:jawla_app/constants/constants.dart';
 import 'package:flutter/services.dart';
 import 'package:jawla_app/extensions/format.dart';
 import 'package:jawla_app/extensions/navigators.dart';
+import 'package:jawla_app/screens/signup_screen.dart';
 import 'package:jawla_app/services/api/auth/forget_password.dart';
 import 'package:jawla_app/services/api/auth/login_response.dart';
 import 'package:jawla_app/services/api/auth/update_password.dart';
@@ -64,110 +65,98 @@ class LoginScreenState extends State<LoginScreen> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/login-page-bg.png'),
+          image: AssetImage('assets/images/login_signup/login_page_bg.png'),
           fit: BoxFit.cover,
         ),
       ),
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Image.asset("assets/images/logo.png"),
-                  const SizedBox(height: 20),
-                  CustomTextField(
-                    hint: "Email",
-                    iconName: Icons.email_outlined,
-                    controller: emailController,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Padding(
+          padding: const EdgeInsets.all(40.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Image.asset("assets/images/logo.png"),
+                height24,
+                CustomTextField(
+                  hint: "Email",
+                  iconName: Icons.email_outlined,
+                  controller: emailController,
+                ),
+                CustomTextField(
+                  hint: "Password",
+                  iconName: Icons.lock_outline_rounded,
+                  controller: passwordController,
+                  isPassword: true,
+                ),
+                height16,
+                InkWell(
+                  onTap: () {
+                    opensheet(context);
+                  },
+                  child: const Text(
+                    "Forgot your password?",
+                    style: forgetPasswordStyle,
                   ),
-                  CustomTextField(
-                    hint: "Password",
-                    iconName: Icons.lock_outline_rounded,
-                    controller: passwordController,
-                    isPassword: true,
-                  ),
-                  const SizedBox(height: 10),
-                  InkWell(
-                    onTap: () {
-                      opensheet(context);
-                    },
-                    child: const Text(
-                      "Forgot your password?",
-                      style: forgetPasswordStyle,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  CustomButton(
-                    text: "Login",
-                    onPressed: () async {
-                      if (emailController.text.isNotEmpty &&
-                          passwordController.text.isNotEmpty) {
-                        if (emailController.text.isValidEmail) {
-                          // ---------- login response ----------
-                          final response = await loginResponse(body: {
-                            "email": emailController.text,
-                            "password": passwordController.text
-                          });
-                          print(response.body);
+                ),
+                height24,
+                CustomButton(
+                  text: "Login",
+                  onPressed: () async {
+                    if (emailController.text.isNotEmpty &&
+                        passwordController.text.isNotEmpty) {
+                      if (emailController.text.isValidEmail) {
+                        // ---------- login response ----------
+                        final response = await loginResponse(body: {
+                          "email": emailController.text,
+                          "password": passwordController.text
+                        });
+                        print(response.body);
 
-                          try {
-                            if (response.statusCode == 200) {
-                              final box = GetStorage();
-                              box.write(
-                                  "token", json.decode(response.body)["Token"]);
-                              if (!mounted) return;
-                              context.pushAndRemoveUntil(
-                                  screen: const MyNavigationBar());
-                            } else {
-                              snackBar(json.decode(response.body)["msg"]);
-                            }
-                          } catch (error) {
-                            snackBar("No connection");
+                        try {
+                          if (response.statusCode == 200) {
+                            final box = GetStorage();
+                            box.write(
+                                "token", json.decode(response.body)["Token"]);
+                            if (!mounted) return;
+                            context.pushAndRemoveUntil(
+                                screen: const MyNavigationBar());
+                          } else {
+                            snackBar("Error");
                           }
-                        } else {
-                          snackBar("Enter valid email");
+                        } catch (error) {
+                          snackBar("No connection");
                         }
                       } else {
-                        snackBar("Enter your email and password");
+                        snackBar("Enter valid email");
                       }
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Divider(height: 40, thickness: 3, color: greyButtonColor),
-                      Text("Or", style: haveAccountStyle),
-                      Divider(height: 40, thickness: 3, color: greyButtonColor),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Don't have an account yet? ",
-                        style: haveAccountStyle,
+                    } else {
+                      snackBar("Enter your email and password");
+                    }
+                  },
+                ),
+                height24,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Don’t have an account yet? ",
+                      style: haveAccountStyle,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        context.push(screen: SignUpScreen());
+                      },
+                      child: Text(
+                        "Sign up",
+                        style: haveAccountStyle.copyWith(color: primaryColor),
                       ),
-                      InkWell(
-                        onTap: () {
-                          // context.push(screen: const SignUpScreen());
-                        },
-                        child: Text(
-                          "Sign up",
-                          style: haveAccountStyle.copyWith(color: primaryColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 140),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 128),
+              ],
             ),
           ),
         ),
@@ -201,12 +190,9 @@ class LoginScreenState extends State<LoginScreen> {
   snackBar(String? message) {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: myTertiaryColor,
         content: Text(
           message!,
-          style: const TextStyle(color: primaryColor, fontSize: 14),
         ),
-        duration: const Duration(seconds: 3),
       ),
     );
   }
@@ -416,8 +402,8 @@ class LoginScreenState extends State<LoginScreen> {
           borderRadius: BorderRadius.circular(5),
           fieldHeight: 50,
           fieldWidth: 40,
-          activeColor: myTertiaryColor,
-          inactiveColor: myTertiaryColor,
+          activeColor: greyButtonColor,
+          inactiveColor: greyButtonColor,
           selectedColor: primaryColor,
           activeFillColor: Colors.white,
           inactiveFillColor: Colors.white,

@@ -6,7 +6,7 @@ const secondaryColor = Color(0xFFFFA285);
 const sandColor = Color(0xFFFFA285);
 const greyButtonColor = Color(0xFFDDDDDD);
 const greyTextColor = Color(0xFF959595);
-const myTertiaryColor = Color.fromARGB(255, 197, 197, 197);
+const tertiaryColor = Color.fromARGB(255, 197, 197, 197);
 
 const headLineStyle1 = TextStyle(
     fontSize: 20,
@@ -29,7 +29,7 @@ const headLineStyle4 = TextStyle(
     fontWeight: FontWeight.w600,
     fontFamily: 'Poppins');
 const headLineStyle5 = TextStyle(
-    fontSize: 11,
+    fontSize: 12,
     color: greyTextColor,
     fontWeight: FontWeight.w500,
     fontFamily: 'Poppins');
